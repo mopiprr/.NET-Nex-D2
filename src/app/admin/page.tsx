@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { getLatestDay, getStatusCounts, getTopPizzas } from "@/lib/admin-data";
 import { formatPrice } from "@/lib/format";
+import WidgetErrorBoundary from "@/components/admin/WidgetErrorBoundary";
 
 async function LatestDayStats() {
   const latest = await getLatestDay();

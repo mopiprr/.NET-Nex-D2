@@ -4,7 +4,8 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { getSalesBySize } from "@/lib/admin-data";
 import { getPizza } from "@/lib/data";
-import { formatPrice } from "@/lib/format";
+// import { formatPrice } from "@/lib/format";
+import PriceForm from "@/components/admin/PriceForm";
 
 export default async function ProductDetailPage({
   params,
@@ -39,7 +40,7 @@ export default async function ProductDetailPage({
       <p className="mt-4">{pizza.description}</p>
 
       <h2 className="mt-8 text-lg font-bold">Harga</h2>
-      <dl className="mt-2 grid grid-cols-3 gap-3">
+      {/* <dl className="mt-2 grid grid-cols-3 gap-3">
         {(["S", "M", "L"] as const).map((size) => (
           <div key={size} className="rounded-xl bg-white p-4 shadow-sm">
             <dt className="text-xs font-semibold uppercase text-ink/60">{size}</dt>
@@ -48,7 +49,8 @@ export default async function ProductDetailPage({
             </dd>
           </div>
         ))}
-      </dl>
+      </dl> */}
+      <PriceForm pizzaId={pizza.id} sizes={pizza.sizes} />
 
       <h2 className="mt-8 text-lg font-bold">Terjual per ukuran</h2>
       <Suspense fallback={<p className="mt-2 animate-pulse text-ink/60">Menghitung…</p>}>

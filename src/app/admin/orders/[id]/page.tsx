@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { getOrder, setOrderStatus } from "@/lib/admin-data";
 import { STATUS_LABELS, nextStatuses, type OrderStatus } from "@/lib/orders";
 import { formatPrice } from "@/lib/format";
+import { updateOrderStatusAction } from "../../actions";
 
 interface OrderDetailPageProps {
     params: Promise<{ id: string }>;
@@ -12,9 +13,9 @@ export default async function OrderDetailPage({ params }: OrderDetailPageProps) 
     const { id } = await params;                                                                                                                          
     const orderId = Number(id);                                                                                                                           
                                                                                                                                                             
-    if (isNaN(orderId)) {
-    notFound();
-    }
+    // if (isNaN(orderId)) {
+    // notFound();
+    // }
 
       const order = await getOrder(orderId);
       if (!order) {
@@ -33,7 +34,9 @@ export default async function OrderDetailPage({ params }: OrderDetailPageProps) 
           revalidatePath("/admin/orders");                                                                                                                  
           revalidatePath("/admin");                                                                                                                         
         }                                                                                                                                                   
-      }                                                                                                                                                     
+      }         
+      
+      const allowedNextStatuses = nextStatuses(order.status)
 
       return (                                                                                                                                              
         <section className="space-y-6">
@@ -56,7 +59,7 @@ export default async function OrderDetailPage({ params }: OrderDetailPageProps) 
                 </span>
 
                 {/* Tombol transisi status berikutnya */}
-                {possibleNextStatuses.map((status) => (
+                {allowedNextStatuses.map((status) => (
                   <form key={status} action={updateStatus}>
                     <input type="hidden" name="status" value={status} />
                     <button                                                                                                                                 

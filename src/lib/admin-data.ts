@@ -181,6 +181,7 @@ export async function getTopPizzas(): Promise<
   "use cache";
   cacheLife("hours");
   cacheTag("sales");
+  
   await simulateLatency("read");
   await new Promise((resolve) => setTimeout(resolve, 1500));
   return all(

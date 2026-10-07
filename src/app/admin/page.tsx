@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { getLatestDay, getStatusCounts, getTopPizzas } from "@/lib/admin-data";
 import { formatPrice } from "@/lib/format";
+import WidgetErrorBoundary from "@/components/admin/WidgetErrorBoundary";
 
 async function LatestDayStats() {
   const latest = await getLatestDay();
@@ -125,18 +126,20 @@ export default function AdminPage() {
         <h1 className="text-3xl font-black">Overview</h1>
         <p className="mt-1 text-ink/70">Ringkasan operasional toko</p>
       </div>
+      
+      <WidgetErrorBoundary title="status">
+        <Suspense fallback={<SkeletonWidget />}>
+          <LatestDayStats />
+        </Suspense>
 
-      <Suspense fallback={<SkeletonWidget />}>
-        <LatestDayStats />
-      </Suspense>
+        <Suspense fallback={<SkeletonWidget />}>
+          <StatusCountsWidget />
+        </Suspense>
 
-      <Suspense fallback={<SkeletonWidget />}>
-        <StatusCountsWidget />
-      </Suspense>
-
-      <Suspense fallback={<SkeletonWidget />}>
-        <TopPizzasWidget />
-      </Suspense>
+        <Suspense fallback={<SkeletonWidget />}>
+          <TopPizzasWidget />
+        </Suspense>
+      </WidgetErrorBoundary>
     </section>
   );
 }

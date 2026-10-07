@@ -72,7 +72,7 @@ export async function updateOrderStatusAction(_prev: OrderActionState, formData:
     const id = Number(formData.get("orderId"));
     const nextStatus = formData.get("status");
 
-    if(!Number.isInteger(id) || id <= 0 || isOrderStatus(nextStatus)) {
+    if(!Number.isInteger(id) || id <= 0 || !isOrderStatus(nextStatus)) {
         return { error: "Data order atau status tidak valid" };
     }
 
